@@ -197,7 +197,6 @@ class Brush {
             }
 
             paint.setShader(linearGradient);
-            paint.setDither(true);
         } else if (mType == BrushType.RADIAL_GRADIENT) {
             double rx = getVal(mPoints[2], width, scale, textSize);
             double ry = getVal(mPoints[3], height, scale, textSize);
@@ -229,7 +228,6 @@ class Brush {
 
             radialGradient.setLocalMatrix(radialMatrix);
             paint.setShader(radialGradient);
-            paint.setDither(true);
         }
     }
 }

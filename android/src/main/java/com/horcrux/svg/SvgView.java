@@ -292,8 +292,7 @@ public class SvgView extends ReactViewGroup implements ReactCompoundView, ReactC
 
         final Paint paint = new Paint();
 
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG | Paint.DITHER_FLAG );
-        paint.setDither(true);
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
 
         paint.setTypeface(Typeface.DEFAULT);
 
