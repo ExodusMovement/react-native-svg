@@ -287,6 +287,9 @@ export function parse(source) {
 
     const tag = getName();
     const props = Object.create(null);
+    if (!tags[tag]) {
+        throw new Error(`Unknown tag: ${tag}`)
+    }
     const element = {
       tag,
       props,
