@@ -46,6 +46,7 @@ export const tags = {
   pattern: Pattern,
   mask: Mask
 };
+Object.setPrototypeOf(tags, null)
 
 export function SvgAst({ ast, override }) {
   const { props, children } = ast;
@@ -137,7 +138,7 @@ const upperCase = (match, letter) => letter.toUpperCase();
 const camelCase = phrase => phrase.replace(/-([a-z])/g, upperCase);
 
 export function getStyle(string) {
-  const style = {};
+  const style = Object.create(null);
   const declarations = string.split(";");
   for (let i = 0, l = declarations.length; i < l; i++) {
     const declaration = declarations[i].split(":");
@@ -251,7 +252,7 @@ export function parse(source) {
     if (char === "/") return closingTag;
 
     const tag = getName();
-    const props = {};
+    const props = Object.create(null);
     const element = {
       tag,
       props,
