@@ -305,10 +305,10 @@ export function parse(source) {
 
     getAttributes(props);
 
-    const { style } = props;
-    if (style) {
-      props.style = getStyle(style);
-    }
+    // const { style } = props;
+    // if (style) {
+    //   props.style = getStyle(style);
+    // }
 
     let selfClosing = false;
 
