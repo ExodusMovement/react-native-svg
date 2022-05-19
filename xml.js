@@ -48,6 +48,40 @@ export const tags = {
 };
 Object.setPrototypeOf(tags, null)
 
+// intentionally excluded href, xlinkHref, style
+const propWhitelist = [
+    'alignmentBaseline', 'alignmentBaseline', 'baselineShift', 'clipPath',
+    'clipRule', 'cx', 'cy', 'delayLongPress', 'delayPressIn', 'delayPressOut',
+    'disabled', 'fill', 'fillOpacity', 'fillRule', 'fontData', 'fontFamily',
+    'fontFeatureSettings', 'fontSize', 'fontStretch', 'fontStyle',
+    'fontVariant', 'fontVariantLigatures', 'fontVariationSettings',
+    'fontWeight', 'fx', 'fy', 'gradientTransform', 'gradientUnits', 'height',
+    'id', 'inlineSize', 'kerning', 'letterSpacing', 'maskContentUnits',
+    'maskTransform', 'maskUnits', 'method', 'midLine', 'onLayout',
+    'onLongPress', 'onPress', 'onPressIn', 'onPressOut', 'opacity', 'origin',
+    'originX', 'originY', 'patternContentUnits', 'patternTransform',
+    'patternUnits', 'pointerEvents', 'points', 'preserveAspectRatio', 'r',
+    'rotate', 'rotation', 'rx', 'ry', 'scale', 'scaleX', 'scaleY', 'side',
+    'skew', 'skewX', 'skewY', 'spacing', 'startOffset', 'stopColor',
+    'stopOpacity', 'stroke', 'strokeDasharray', 'strokeDashoffset',
+    'strokeLinecap', 'strokeLinejoin', 'strokeMiterlimit', 'strokeOpacity',
+    'strokeWidth', 'textAnchor', 'textDecoration', 'transform', 'translate',
+    'translateX', 'translateY', 'vectorEffect', 'verticalAlign', 'viewBox',
+    'width', 'wordSpacing', 'x', 'x1', 'x2', 'y', 'y1', 'y2',
+]
+
+function sanitizeProps(props) {
+    const sanitized = {}
+    Object.keys(props).forEach(prop => {
+        if (propWhitelist.includes(prop)) {
+            sanitized[prop] = props[prop]
+        } else {
+            console.log('ignoring unknown prop:', prop)
+        }
+    })
+    return sanitized
+}
+
 export function SvgAst({ ast, override }) {
   const { props, children } = ast;
   return (
@@ -153,7 +187,7 @@ export function astToReact(child, i) {
   if (typeof child === "object") {
     const { Tag, props, children } = child;
     return (
-      <Tag key={i} {...props}>
+      <Tag key={i} {...sanitizeProps(props)}>
         {children.map(astToReact)}
       </Tag>
     );
