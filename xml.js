@@ -85,7 +85,7 @@ function sanitizeProps(props) {
 export function SvgAst({ ast, override }) {
   const { props, children } = ast;
   return (
-    <Svg {...props} {...override}>
+    <Svg {...sanitizeProps(props)} {...override}>
       {children}
     </Svg>
   );
@@ -110,7 +110,7 @@ export function SvgUri({ uri, ...props }) {
       .then(setXml)
       .catch(err);
   }, [uri]);
-  return (xml && <SvgXml xml={xml} {...props} />) || null;
+  return (xml && <SvgXml xml={xml} {...sanitizeProps(props)} />) || null;
 }
 
 // Extending Component is required for Animated support.
