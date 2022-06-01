@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import extractResponder from '../lib/extract/extractResponder';
 import extractViewBox from '../lib/extract/extractViewBox';
+import extractColor from '../lib/extract/extractColor';
 import Shape from './Shape';
 import G from './G';
 
@@ -62,6 +63,7 @@ export default class Svg extends Shape {
       opacity,
       viewBox,
       preserveAspectRatio,
+      color,
       style,
       children,
       onLayout,
@@ -112,12 +114,14 @@ export default class Svg extends Shape {
         }
       : null;
 
+    const tint = extractColor(color);
     return (
       <NativeSvgView
         {...props}
         bbWidth={width}
         bbHeight={height}
-        tintColor={color}
+        color={tint}
+        tintColor={tint}
         onLayout={onLayout}
         ref={this.refMethod}
         style={[styles.svg, style, opacityStyle, dimensions]}
