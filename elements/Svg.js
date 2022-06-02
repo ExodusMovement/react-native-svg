@@ -63,7 +63,6 @@ export default class Svg extends Shape {
       opacity,
       viewBox,
       preserveAspectRatio,
-      color,
       style,
       children,
       onLayout,
