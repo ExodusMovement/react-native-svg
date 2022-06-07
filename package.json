@@ -1,5 +1,5 @@
 {
-    "version": "9.8.5-exodus.0",
+    "version": "9.8.5-exodus.1",
     "name": "@exodus/react-native-svg",
     "description": "SVG library for react-native",
     "homepage": "https://github.com/ExodusMovement/react-native-svg",
