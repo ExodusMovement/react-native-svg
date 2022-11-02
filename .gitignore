@@ -18,7 +18,6 @@ xcuserdata
 DerivedData
 *.hmap
 *.ipa
-gradle
 project.xcworkspace
 
 # Android/IJ
@@ -26,7 +25,7 @@ project.xcworkspace
 .idea
 .gradle
 local.properties
-build
+build/
 
 # node.js
 #
@@ -45,3 +44,9 @@ cn-doc.md
 # experimental code
 #
 experimental/
+
+/lib/
+/flow-typed/
+
+# VS Code
+.vscode/
