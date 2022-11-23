@@ -46,40 +46,121 @@ export const tags = {
   pattern: Pattern,
   mask: Mask,
 };
-Object.setPrototypeOf(tags, null)
+Object.setPrototypeOf(tags, null);
 
 // intentionally excluded href, xlinkHref, style
 const propWhitelist = [
-    'alignmentBaseline', 'alignmentBaseline', 'baselineShift', 'bbHeight',
-    'bbWidth', 'clipPath', 'clipRule', 'cx', 'cy', 'd', 'delayLongPress',
-    'delayPressIn', 'delayPressOut', 'disabled', 'fill', 'fillOpacity',
-    'fillRule', 'fontData', 'fontFamily', 'fontFeatureSettings', 'fontSize',
-    'fontStretch', 'fontStyle', 'fontVariant', 'fontVariantLigatures',
-    'fontVariationSettings', 'fontWeight', 'fx', 'fy', 'gradientTransform',
-    'gradientUnits', 'height', 'id', 'inlineSize', 'kerning', 'letterSpacing',
-    'maskContentUnits', 'maskTransform', 'maskUnits', 'method', 'midLine',
-    'onLayout', 'onLongPress', 'onPress', 'onPressIn', 'onPressOut', 'opacity',
-    'origin', 'originX', 'originY', 'patternContentUnits', 'patternTransform',
-    'patternUnits', 'pointerEvents', 'points', 'preserveAspectRatio', 'r',
-    'rotate', 'rotation', 'rx', 'ry', 'scale', 'scaleX', 'scaleY', 'side',
-    'skew', 'skewX', 'skewY', 'spacing', 'startOffset', 'stopColor',
-    'stopOpacity', 'stroke', 'strokeDasharray', 'strokeDashoffset',
-    'strokeLinecap', 'strokeLinejoin', 'strokeMiterlimit', 'strokeOpacity',
-    'strokeWidth', 'textAnchor', 'textDecoration', 'transform', 'translate',
-    'translateX', 'translateY', 'vectorEffect', 'verticalAlign', 'viewBox',
-    'width', 'wordSpacing', 'x', 'x1', 'x2', 'y', 'y1', 'y2',
-]
+  'alignmentBaseline',
+  'alignmentBaseline',
+  'baselineShift',
+  'bbHeight',
+  'bbWidth',
+  'clipPath',
+  'clipRule',
+  'cx',
+  'cy',
+  'd',
+  'delayLongPress',
+  'delayPressIn',
+  'delayPressOut',
+  'disabled',
+  'fill',
+  'fillOpacity',
+  'fillRule',
+  'fontData',
+  'fontFamily',
+  'fontFeatureSettings',
+  'fontSize',
+  'fontStretch',
+  'fontStyle',
+  'fontVariant',
+  'fontVariantLigatures',
+  'fontVariationSettings',
+  'fontWeight',
+  'fx',
+  'fy',
+  'gradientTransform',
+  'gradientUnits',
+  'height',
+  'id',
+  'inlineSize',
+  'kerning',
+  'letterSpacing',
+  'mask',
+  'maskContentUnits',
+  'maskTransform',
+  'maskUnits',
+  'method',
+  'midLine',
+  'offset',
+  'onLayout',
+  'onLongPress',
+  'onPress',
+  'onPressIn',
+  'onPressOut',
+  'opacity',
+  'origin',
+  'originX',
+  'originY',
+  'patternContentUnits',
+  'patternTransform',
+  'patternUnits',
+  'pointerEvents',
+  'points',
+  'preserveAspectRatio',
+  'r',
+  'rotate',
+  'rotation',
+  'rx',
+  'ry',
+  'scale',
+  'scaleX',
+  'scaleY',
+  'side',
+  'skew',
+  'skewX',
+  'skewY',
+  'spacing',
+  'startOffset',
+  'stopColor',
+  'stopOpacity',
+  'stroke',
+  'strokeDasharray',
+  'strokeDashoffset',
+  'strokeLinecap',
+  'strokeLinejoin',
+  'strokeMiterlimit',
+  'strokeOpacity',
+  'strokeWidth',
+  'textAnchor',
+  'textDecoration',
+  'transform',
+  'translate',
+  'translateX',
+  'translateY',
+  'vectorEffect',
+  'verticalAlign',
+  'viewBox',
+  'width',
+  'wordSpacing',
+  'x',
+  'x1',
+  'x2',
+  'y',
+  'y1',
+  'y2',
+];
 
 function sanitizeProps(props) {
-    const sanitized = {}
-    Object.keys(props).forEach(prop => {
-        if (propWhitelist.includes(prop)) {
-            sanitized[prop] = props[prop]
-        } else {
-            console.log('ignoring unknown prop:', prop)
-        }
-    })
-    return sanitized
+  const sanitized = {};
+  Object.keys(props).forEach(prop => {
+    if (propWhitelist.includes(prop)) {
+      sanitized[prop] = props[prop];
+    } else {
+      console.log('ignoring unknown prop:', prop);
+    }
+  });
+  return sanitized;
 }
 
 function missingTag() {
@@ -318,7 +399,7 @@ export function parse(source) {
     const tag = getName();
     const props = Object.create(null);
     if (!tags[tag]) {
-        throw new Error(`Unknown tag: ${tag}`)
+      throw new Error(`Unknown tag: ${tag}`);
     }
     const element = {
       tag,
