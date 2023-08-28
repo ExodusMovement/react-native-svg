@@ -35,8 +35,8 @@ export const tags = {
   polyline: Polyline,
   line: Line,
   rect: Rect,
-  // use: Use,
-  // image: Image,
+  use: Use,
+  image: Image,
   symbol: Symbol,
   defs: Defs,
   linearGradient: LinearGradient,
@@ -48,8 +48,8 @@ export const tags = {
 };
 Object.setPrototypeOf(tags, null);
 
-// intentionally excluded href, xlinkHref, style
-const propWhitelist = [
+// intentionally excluded xlinkHref and style
+export const propWhitelist = [
   'alignmentBaseline',
   'alignmentBaseline',
   'baselineShift',
@@ -60,6 +60,7 @@ const propWhitelist = [
   'cx',
   'cy',
   'd',
+  'dataName',
   'delayLongPress',
   'delayPressIn',
   'delayPressOut',
@@ -82,6 +83,7 @@ const propWhitelist = [
   'gradientTransform',
   'gradientUnits',
   'height',
+  'href',
   'id',
   'inlineSize',
   'kerning',
