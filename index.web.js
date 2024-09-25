@@ -1,4 +1,4 @@
-import { createElement } from 'react-native-web';
+import { unstable_createElement as createElement } from 'react-native-web';
 import { resolve } from './lib/resolve';
 import { Component } from 'react';
 
