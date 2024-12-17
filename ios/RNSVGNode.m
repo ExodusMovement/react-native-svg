@@ -296,14 +296,14 @@ CGFloat const RNSVG_DEFAULT_FONT_SIZE = 12;
             CGRect bounds = CGContextGetClipBoundingBox(context);
             CGSize size = bounds.size;
 
-            UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-            CGContextRef newContext = UIGraphicsGetCurrentContext();
-            CGContextTranslateCTM(newContext, 0.0, size.height);
-            CGContextScaleCTM(newContext, 1.0, -1.0);
-
-            [_clipNode renderLayerTo:newContext rect:bounds];
-            _clipMask = CGBitmapContextCreateImage(newContext);
-            UIGraphicsEndImageContext();
+            UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:size];
+            UIImage *image = [renderer imageWithActions:^(UIGraphicsImageRendererContext *_Nonnull rendererContext) {
+                CGContextRef newContext = rendererContext.CGContext;
+                CGContextTranslateCTM(newContext, 0.0, size.height);
+                CGContextScaleCTM(newContext, 1.0, -1.0);
+                [_clipNode renderLayerTo:newContext rect:bounds];
+            }];
+            _clipMask = CGImageRetain(image.CGImage);
         }
     }
 

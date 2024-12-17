@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license          = package['license']
   s.homepage         = package['homepage']
   s.authors          = 'Horcrux Chen'
-  s.platforms        = { :ios => "9.0", :tvos => "9.2" }
+  s.platforms        = { :ios => "10.0", :tvos => "9.2" }
   s.source           = { :git => 'https://github.com/react-native-community/react-native-svg.git', :tag => "v#{s.version}" }
   s.source_files     = 'ios/**/*.{h,m}'
   s.requires_arc     = true

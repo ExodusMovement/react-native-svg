@@ -46,7 +46,7 @@ RCT_CUSTOM_VIEW_PROPERTY(color, id, RNSVGSvgView)
         if ([view isKindOfClass:[RNSVGSvgView class]]) {
             RNSVGSvgView *svg = view;
             if (options == nil) {
-                b64 = [svg getDataURL];
+                b64 = [svg getDataURLWithBounds:svg.boundingBox];
             } else {
                 id width = [options objectForKey:@"width"];
                 id height = [options objectForKey:@"height"];
@@ -61,7 +61,7 @@ RCT_CUSTOM_VIEW_PROPERTY(color, id, RNSVGSvgView)
                 NSInteger hi = (NSInteger)[h intValue];
 
                 CGRect bounds = CGRectMake(0, 0, wi, hi);
-                b64 = [svg getDataURLwithBounds:bounds];
+                b64 = [svg getDataURLWithBounds:bounds];
             }
         } else {
             RCTLogError(@"Invalid svg returned frin registry, expecting RNSVGSvgView, got: %@", view);
