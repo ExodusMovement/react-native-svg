@@ -48,7 +48,6 @@ export const tags = {
 };
 Object.setPrototypeOf(tags, null);
 
-// intentionally excluded href, xlinkHref, style
 const propWhitelist = [
   'alignmentBaseline',
   'alignmentBaseline',
@@ -148,7 +147,7 @@ const propWhitelist = [
   'x',
   'x1',
   'x2',
-  'xlinkHref',
+  // 'xlinkHref',
   'y',
   'y1',
   'y2',
@@ -402,7 +401,7 @@ export function parse(source) {
     const tag = getName();
     const props = Object.create(null);
     if (!tags[tag]) {
-      throw new Error(`Unknown tag: ${tag}`);
+      console.error(`Unknown tag rending SVG XML: ${tag}`);
     }
     const element = {
       tag,
