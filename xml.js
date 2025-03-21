@@ -401,7 +401,7 @@ export function parse(source) {
     const tag = getName();
     const props = Object.create(null);
     if (!tags[tag]) {
-      console.error(`Unknown tag rending SVG XML: ${tag}`);
+      console.error(`Unknown tag "${tag}" parsing SVG XML!`);
     }
     const element = {
       tag,
