@@ -158,7 +158,7 @@ function sanitizeProps(props) {
     if (propWhitelist.includes(prop)) {
       sanitized[prop] = props[prop];
     } else {
-      console.log('ignoring unknown prop:', prop);
+      console.log('@exodus/react-native-svg ignoring unknown prop:', prop);
     }
   });
   return sanitized;
