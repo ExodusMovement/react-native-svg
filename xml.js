@@ -149,6 +149,7 @@ const propWhitelist = [
   'y',
   'y1',
   'y2',
+  'xmlns'
 ];
 
 function sanitizeProps(props) {
