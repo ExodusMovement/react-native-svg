@@ -35,8 +35,8 @@ export const tags = {
   polyline: Polyline,
   line: Line,
   rect: Rect,
-  // use: Use,
-  // image: Image,
+  use: Use,
+  image: Image,
   symbol: Symbol,
   defs: Defs,
   linearGradient: LinearGradient,
@@ -48,7 +48,6 @@ export const tags = {
 };
 Object.setPrototypeOf(tags, null);
 
-// intentionally excluded href, xlinkHref, style
 const propWhitelist = [
   'alignmentBaseline',
   'alignmentBaseline',
@@ -82,6 +81,7 @@ const propWhitelist = [
   'gradientTransform',
   'gradientUnits',
   'height',
+  'href',
   'id',
   'inlineSize',
   'kerning',
@@ -132,6 +132,7 @@ const propWhitelist = [
   'strokeMiterlimit',
   'strokeOpacity',
   'strokeWidth',
+  'style',
   'textAnchor',
   'textDecoration',
   'transform',
@@ -146,6 +147,7 @@ const propWhitelist = [
   'x',
   'x1',
   'x2',
+  // 'xlinkHref',
   'y',
   'y1',
   'y2',
@@ -400,7 +402,7 @@ export function parse(source) {
     const tag = getName();
     const props = Object.create(null);
     if (!tags[tag]) {
-      throw new Error(`Unknown tag: ${tag}`);
+      console.error(`Unknown tag "${tag}" parsing SVG XML!`);
     }
     const element = {
       tag,
