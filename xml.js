@@ -337,7 +337,7 @@ export function parse(source) {
   let root = null;
   let stack = [];
   if (source){
-    cleanupSVG(source)
+    source = cleanupSVG(source)
   }
 
   function error(message) {
