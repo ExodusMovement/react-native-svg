@@ -1,5 +1,5 @@
 {
-    "version": "9.8.5-exodus.7",
+    "version": "9.8.5-exodus.8",
     "name": "@exodus/react-native-svg",
     "description": "SVG library for react-native",
     "homepage": "https://github.com/ExodusMovement/react-native-svg",
@@ -28,7 +28,9 @@
         "react": "*",
         "react-native": ">=0.50.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "@exodus/svg-safe": "^1.0.0-rc.2"
+    },
     "devDependencies": {
         "@react-native-community/eslint-config": "^0.0.5",
         "babel-eslint": "^10.0.3",

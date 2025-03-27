@@ -21,7 +21,7 @@ import Stop from './elements/Stop';
 import ClipPath from './elements/ClipPath';
 import Pattern from './elements/Pattern';
 import Mask from './elements/Mask';
-
+import { cleanup as cleanupSVG } from '@exodus/svg-safe'
 export const tags = {
   svg: Svg,
   circle: Circle,
@@ -336,6 +336,9 @@ export function parse(source) {
   let children = null;
   let root = null;
   let stack = [];
+  if (source){
+    source = cleanupSVG(source)
+  }
 
   function error(message) {
     const { line, column, snippet } = locate(source, i);
