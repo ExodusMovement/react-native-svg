@@ -21,7 +21,7 @@ import Stop from './elements/Stop';
 import ClipPath from './elements/ClipPath';
 import Pattern from './elements/Pattern';
 import Mask from './elements/Mask';
-import { cleanup as cleanupSVG } from '@exodus/svg-safe'
+import { validate as validateSVG } from '@exodus/svg-safe';
 export const tags = {
   svg: Svg,
   circle: Circle,
@@ -151,7 +151,7 @@ const propWhitelist = [
   'y',
   'y1',
   'y2',
-  'xmlns'
+  'xmlns',
 ];
 
 function sanitizeProps(props) {
@@ -336,8 +336,11 @@ export function parse(source) {
   let children = null;
   let root = null;
   let stack = [];
-  if (source){
-    source = cleanupSVG(source)
+  try {
+    validateSVG(source);
+  } catch (e) {
+    console.error(`SVG XML is not svg-safe!!!. Error: ${e.message}`, e);
+    return undefined;
   }
 
   function error(message) {
