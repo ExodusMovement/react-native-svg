@@ -26,7 +26,7 @@ export default class Use extends Shape {
       href = xlinkHref,
     } = props;
 
-    const matched = href.match(idPattern);
+    const matched = href?.match(idPattern);
     const match = matched && matched[1];
 
     if (!match) {
