@@ -147,7 +147,7 @@ const propWhitelist = [
   'x',
   'x1',
   'x2',
-  'xlinkHref',
+  // 'xlinkHref',
   'y',
   'y1',
   'y2',

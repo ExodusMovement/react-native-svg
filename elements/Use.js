@@ -22,11 +22,10 @@ export default class Use extends Shape {
       y,
       width,
       height,
-      xlinkHref,
-      href = xlinkHref,
+      href,
     } = props;
 
-    const matched = href.match(idPattern);
+    const matched = href?.match(idPattern);
     const match = matched && matched[1];
 
     if (!match) {
