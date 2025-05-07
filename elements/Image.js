@@ -25,7 +25,8 @@ export default class SvgImage extends Shape {
       y,
       width,
       height,
-      href,
+      xlinkHref,
+      href = xlinkHref,
     } = props;
     const modes = preserveAspectRatio.trim().split(spacesRegExp);
     return (

@@ -22,7 +22,8 @@ export default class TextPath extends Shape {
   render() {
     const {
       children,
-      href,
+      xlinkHref,
+      href = xlinkHref,
       startOffset = 0,
       method,
       spacing,
@@ -31,7 +32,7 @@ export default class TextPath extends Shape {
       midLine,
       ...prop
     } = this.props;
-    const matched = href && href?.match(idPattern);
+    const matched = href?.match(idPattern);
     const match = matched && matched[1];
     if (match) {
       const props = extractProps(
