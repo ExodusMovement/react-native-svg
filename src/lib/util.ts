@@ -13,7 +13,7 @@ export function pickNotNil(object: { [prop: string]: unknown }) {
   return result;
 }
 
-export const idPattern = /#([^)]+)'?\)?$/;
+export const idPattern = /^(?:url\()?#([a-zA-Z0-9\-_]+)\)?$/;
 
 export const getRandomNumber = () =>
   Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
