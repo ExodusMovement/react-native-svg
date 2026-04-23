@@ -9,6 +9,128 @@ function missingTag() {
   return null;
 }
 
+const propWhitelist = new Set([
+  'alignmentBaseline',
+  'baselineShift',
+  'bbHeight',
+  'bbWidth',
+  'clipPath',
+  'clipRule',
+  'cx',
+  'cy',
+  'd',
+  'delayLongPress',
+  'delayPressIn',
+  'delayPressOut',
+  'disabled',
+  'fill',
+  'fillOpacity',
+  'fillRule',
+  'fontData',
+  'fontFamily',
+  'fontFeatureSettings',
+  'fontSize',
+  'fontStretch',
+  'fontStyle',
+  'fontVariant',
+  'fontVariantLigatures',
+  'fontVariationSettings',
+  'fontWeight',
+  'fx',
+  'fy',
+  'gradientTransform',
+  'gradientUnits',
+  'height',
+  'href',
+  'id',
+  'inlineSize',
+  'kerning',
+  'letterSpacing',
+  'mask',
+  'maskContentUnits',
+  'maskTransform',
+  'maskUnits',
+  'method',
+  'midLine',
+  'offset',
+  'onLayout',
+  'onLongPress',
+  'onPress',
+  'onPressIn',
+  'onPressOut',
+  'opacity',
+  'origin',
+  'originX',
+  'originY',
+  'patternContentUnits',
+  'patternTransform',
+  'patternUnits',
+  'pointerEvents',
+  'points',
+  'preserveAspectRatio',
+  'r',
+  'rotate',
+  'rotation',
+  'rx',
+  'ry',
+  'scale',
+  'scaleX',
+  'scaleY',
+  'side',
+  'skew',
+  'skewX',
+  'skewY',
+  'spacing',
+  'startOffset',
+  'stopColor',
+  'stopOpacity',
+  'stroke',
+  'strokeDasharray',
+  'strokeDashoffset',
+  'strokeLinecap',
+  'strokeLinejoin',
+  'strokeMiterlimit',
+  'strokeOpacity',
+  'strokeWidth',
+  'style',
+  'textAnchor',
+  'textDecoration',
+  'transform',
+  'translate',
+  'translateX',
+  'translateY',
+  'vectorEffect',
+  'verticalAlign',
+  'viewBox',
+  'width',
+  'wordSpacing',
+  'x',
+  'x1',
+  'x2',
+  'xmlns',
+  'y',
+  'y1',
+  'y2',
+]);
+
+function sanitizeProps(props: {
+  [prop: string]: Styles | string | undefined;
+}): { [prop: string]: Styles | string | undefined } {
+  const sanitized: { [prop: string]: Styles | string | undefined } =
+    Object.create(null);
+  for (const prop of Object.keys(props)) {
+    if (propWhitelist.has(prop)) {
+      sanitized[prop] = props[prop];
+    } else {
+      console.log(
+        '@exodus/react-native-svg ignoring unknown prop:',
+        prop
+      );
+    }
+  }
+  return sanitized;
+}
+
 type Tag = ComponentType<ComponentProps<(typeof tags)[keyof typeof tags]>>;
 export interface AST {
   tag: string;
@@ -56,7 +178,7 @@ export function SvgAst({ ast, override }: AstProps) {
   const Svg = tags.svg;
 
   return (
-    <Svg {...props} {...override}>
+    <Svg {...sanitizeProps(props)} {...override}>
       {children}
     </Svg>
   );
@@ -101,7 +223,7 @@ export function SvgUri(props: UriProps) {
   if (isError) {
     return fallback ?? null;
   }
-  return <SvgXml xml={xml} override={props} fallback={fallback} />;
+  return <SvgXml xml={xml} override={sanitizeProps(props)} fallback={fallback} />;
 }
 
 // Extending Component is required for Animated support.
@@ -206,7 +328,7 @@ export function astToReact(
     }
 
     return (
-      <Tag key={index} {...props}>
+      <Tag key={index} {...sanitizeProps(props)}>
         {(children as (AST | string)[]).map(astToReact)}
       </Tag>
     );
