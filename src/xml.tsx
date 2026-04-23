@@ -4,6 +4,7 @@ import { Component, useEffect, useMemo, useState } from 'react';
 import { fetchText } from './utils/fetchData';
 import type { SvgProps } from './elements/Svg';
 import { tags } from './xmlTags';
+import { validate as validateSVG } from '@exodus/svg-safe';
 
 function missingTag() {
   return null;
@@ -380,6 +381,14 @@ const quotemarks = /['"]/;
 export type Middleware = (ast: XmlAST) => XmlAST;
 
 export function parse(source: string, middleware?: Middleware): JsxAST | null {
+  try {
+    validateSVG(source);
+  } catch (e) {
+    console.error(
+      `@exodus/react-native-svg: SVG XML failed svg-safe validation: ${(e as Error).message}`
+    );
+    return null;
+  }
   const length = source.length;
   let currentElement: XmlAST | null = null;
   let state = metadata;
