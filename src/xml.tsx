@@ -179,7 +179,7 @@ export const camelCase = (phrase: string) =>
 export type Styles = { [property: string]: string };
 
 export function getStyle(string: string): Styles {
-  const style: Styles = {};
+  const style: Styles = Object.create(null);
   const declarations = string.split(';').filter((v) => v.trim());
   const { length } = declarations;
   for (let i = 0; i < length; i++) {
@@ -332,7 +332,11 @@ export function parse(source: string, middleware?: Middleware): JsxAST | null {
     }
 
     const tag = getName() as keyof typeof tags;
-    const props: { [prop: string]: Styles | string | undefined } = {};
+    const props: { [prop: string]: Styles | string | undefined } =
+      Object.create(null);
+    if (!tags[tag]) {
+      console.error(`@exodus/react-native-svg: unknown tag "${tag}"`);
+    }
     const element: XmlAST = {
       tag,
       props,
