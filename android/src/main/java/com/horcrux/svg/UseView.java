@@ -64,9 +64,7 @@ class UseView extends RenderableView {
       FLog.w(
           ReactConstants.TAG,
           "`Use` element expected a pre-defined svg template as `href` prop, "
-              + "template named: "
-              + mHref
-              + " is not defined.");
+              + "template is not defined.");
       return;
     }
 
@@ -113,9 +111,7 @@ class UseView extends RenderableView {
       FLog.w(
           ReactConstants.TAG,
           "`Use` element expected a pre-defined svg template as `href` prop, "
-              + "template named: "
-              + mHref
-              + " is not defined.");
+              + "template is not defined.");
       return -1;
     }
 
@@ -134,9 +130,7 @@ class UseView extends RenderableView {
       FLog.w(
           ReactConstants.TAG,
           "`Use` element expected a pre-defined svg template as `href` prop, "
-              + "template named: "
-              + mHref
-              + " is not defined.");
+              + "template is not defined.");
       return null;
     }
     Path path = template.getPath(canvas, paint);

@@ -4,9 +4,132 @@ import { Component, useEffect, useMemo, useState } from 'react';
 import { fetchText } from './utils/fetchData';
 import type { SvgProps } from './elements/Svg';
 import { tags } from './xmlTags';
+import { validate as validateSVG } from '@exodus/svg-safe';
 
 function missingTag() {
   return null;
+}
+
+const propWhitelist = new Set([
+  'alignmentBaseline',
+  'baselineShift',
+  'bbHeight',
+  'bbWidth',
+  'clipPath',
+  'clipRule',
+  'cx',
+  'cy',
+  'd',
+  'delayLongPress',
+  'delayPressIn',
+  'delayPressOut',
+  'disabled',
+  'fill',
+  'fillOpacity',
+  'fillRule',
+  'fontData',
+  'fontFamily',
+  'fontFeatureSettings',
+  'fontSize',
+  'fontStretch',
+  'fontStyle',
+  'fontVariant',
+  'fontVariantLigatures',
+  'fontVariationSettings',
+  'fontWeight',
+  'fx',
+  'fy',
+  'gradientTransform',
+  'gradientUnits',
+  'height',
+  'href',
+  'id',
+  'inlineSize',
+  'kerning',
+  'letterSpacing',
+  'mask',
+  'maskContentUnits',
+  'maskTransform',
+  'maskUnits',
+  'method',
+  'midLine',
+  'offset',
+  'onLayout',
+  'onLongPress',
+  'onPress',
+  'onPressIn',
+  'onPressOut',
+  'opacity',
+  'origin',
+  'originX',
+  'originY',
+  'patternContentUnits',
+  'patternTransform',
+  'patternUnits',
+  'pointerEvents',
+  'points',
+  'preserveAspectRatio',
+  'r',
+  'rotate',
+  'rotation',
+  'rx',
+  'ry',
+  'scale',
+  'scaleX',
+  'scaleY',
+  'side',
+  'skew',
+  'skewX',
+  'skewY',
+  'spacing',
+  'startOffset',
+  'stopColor',
+  'stopOpacity',
+  'stroke',
+  'strokeDasharray',
+  'strokeDashoffset',
+  'strokeLinecap',
+  'strokeLinejoin',
+  'strokeMiterlimit',
+  'strokeOpacity',
+  'strokeWidth',
+  'style',
+  'textAnchor',
+  'textDecoration',
+  'transform',
+  'translate',
+  'translateX',
+  'translateY',
+  'vectorEffect',
+  'verticalAlign',
+  'viewBox',
+  'width',
+  'wordSpacing',
+  'x',
+  'x1',
+  'x2',
+  'xmlns',
+  'y',
+  'y1',
+  'y2',
+]);
+
+function sanitizeProps(props: {
+  [prop: string]: Styles | string | undefined;
+}): { [prop: string]: Styles | string | undefined } {
+  const sanitized: { [prop: string]: Styles | string | undefined } =
+    Object.create(null);
+  for (const prop of Object.keys(props)) {
+    if (propWhitelist.has(prop)) {
+      sanitized[prop] = props[prop];
+    } else {
+      console.log(
+        '@exodus/react-native-svg ignoring unknown prop:',
+        prop
+      );
+    }
+  }
+  return sanitized;
 }
 
 type Tag = ComponentType<ComponentProps<(typeof tags)[keyof typeof tags]>>;
@@ -56,7 +179,7 @@ export function SvgAst({ ast, override }: AstProps) {
   const Svg = tags.svg;
 
   return (
-    <Svg {...props} {...override}>
+    <Svg {...sanitizeProps(props)} {...override}>
       {children}
     </Svg>
   );
@@ -101,7 +224,7 @@ export function SvgUri(props: UriProps) {
   if (isError) {
     return fallback ?? null;
   }
-  return <SvgXml xml={xml} override={props} fallback={fallback} />;
+  return <SvgXml xml={xml} override={sanitizeProps(props as unknown as { [prop: string]: Styles | string | undefined })} fallback={fallback} />;
 }
 
 // Extending Component is required for Animated support.
@@ -179,7 +302,7 @@ export const camelCase = (phrase: string) =>
 export type Styles = { [property: string]: string };
 
 export function getStyle(string: string): Styles {
-  const style: Styles = {};
+  const style: Styles = Object.create(null);
   const declarations = string.split(';').filter((v) => v.trim());
   const { length } = declarations;
   for (let i = 0; i < length; i++) {
@@ -206,7 +329,7 @@ export function astToReact(
     }
 
     return (
-      <Tag key={index} {...props}>
+      <Tag key={index} {...sanitizeProps(props)}>
         {(children as (AST | string)[]).map(astToReact)}
       </Tag>
     );
@@ -240,11 +363,11 @@ function locate(source: string, i: number) {
     }
   }
   const before = source.slice(0, i).replace(/^\t+/, toSpaces);
-  const beforeExec = /(^|\n).*$/.exec(before);
-  const beforeLine = (beforeExec && beforeExec[0]) || '';
+  const lastNl = before.lastIndexOf('\n');
+  const beforeLine = lastNl === -1 ? before : before.slice(lastNl + 1);
   const after = source.slice(i);
-  const afterExec = /.*(\n|$)/.exec(after);
-  const afterLine = afterExec && afterExec[0];
+  const firstNl = after.indexOf('\n');
+  const afterLine = firstNl === -1 ? after : after.slice(0, firstNl);
   const pad = repeat(' ', beforeLine.length);
   const snippet = `${beforeLine}${afterLine}\n${pad}^`;
   return { line, column, snippet };
@@ -258,6 +381,14 @@ const quotemarks = /['"]/;
 export type Middleware = (ast: XmlAST) => XmlAST;
 
 export function parse(source: string, middleware?: Middleware): JsxAST | null {
+  try {
+    validateSVG(source);
+  } catch (e) {
+    console.error(
+      `@exodus/react-native-svg: SVG XML failed svg-safe validation: ${(e as Error).message}`
+    );
+    return null;
+  }
   const length = source.length;
   let currentElement: XmlAST | null = null;
   let state = metadata;
@@ -332,7 +463,11 @@ export function parse(source: string, middleware?: Middleware): JsxAST | null {
     }
 
     const tag = getName() as keyof typeof tags;
-    const props: { [prop: string]: Styles | string | undefined } = {};
+    const props: { [prop: string]: Styles | string | undefined } =
+      Object.create(null);
+    if (!tags[tag]) {
+      console.error(`@exodus/react-native-svg: unknown tag "${tag}"`);
+    }
     const element: XmlAST = {
       tag,
       props,

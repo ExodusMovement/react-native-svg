@@ -365,11 +365,11 @@ public abstract class VirtualView extends ReactViewGroup {
           case CLIP_RULE_NONZERO:
             break;
           default:
-            FLog.w(ReactConstants.TAG, "RNSVG: clipRule: " + mClipRule + " unrecognized");
+            FLog.w(ReactConstants.TAG, "RNSVG: clipRule unrecognized");
         }
         mCachedClipPath = clipPath;
       } else {
-        FLog.w(ReactConstants.TAG, "RNSVG: Undefined clipPath: " + mClipPath);
+        FLog.w(ReactConstants.TAG, "RNSVG: Undefined clipPath");
       }
     }
 

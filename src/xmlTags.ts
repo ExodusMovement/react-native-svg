@@ -95,3 +95,4 @@ export const tags = {
   tspan: TSpan,
   use: Use,
 } as const;
+Object.setPrototypeOf(tags, null);
