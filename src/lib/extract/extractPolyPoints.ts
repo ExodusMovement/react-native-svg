@@ -6,6 +6,7 @@ export default function extractPolyPoints(
   const polyPoints = Array.isArray(points) ? points.join(',') : points;
   return (polyPoints as string)
     .replace(/[^eE]-/, ' -')
-    .split(/(?:\s+|\s*,\s*)/g)
+    .split(/[\s,]+/)
+    .filter(Boolean)
     .join(' ');
 }
