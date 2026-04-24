@@ -25,7 +25,6 @@
     "filter-image",
     "RNSVG.podspec",
     "!android/build",
-    "windows",
     "react-native.config.js",
     "scripts/rnsvg_utils.rb"
   ],
