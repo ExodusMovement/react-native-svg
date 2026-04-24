@@ -1132,6 +1132,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
+"@exodus/svg-safe@^1.0.0-rc.2":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@exodus/svg-safe/-/svg-safe-1.0.0-rc.3.tgz#3f7bbed506249f6b3f2e5b08da9b9e39197d2cc1"
+  integrity sha512-AOECLdzoIT6vs0CqHRK5Fi06K3plMvDZM76xGxXZZL2vk7x+4iR/D6C+YBPSB/9YRXopjTt9uSO4joRoA8EXfQ==
+
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
