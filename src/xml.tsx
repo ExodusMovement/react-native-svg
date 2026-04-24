@@ -224,7 +224,7 @@ export function SvgUri(props: UriProps) {
   if (isError) {
     return fallback ?? null;
   }
-  return <SvgXml xml={xml} override={sanitizeProps(props)} fallback={fallback} />;
+  return <SvgXml xml={xml} override={sanitizeProps(props as unknown as { [prop: string]: Styles | string | undefined })} fallback={fallback} />;
 }
 
 // Extending Component is required for Animated support.
