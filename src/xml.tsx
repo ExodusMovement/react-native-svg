@@ -363,11 +363,11 @@ function locate(source: string, i: number) {
     }
   }
   const before = source.slice(0, i).replace(/^\t+/, toSpaces);
-  const beforeExec = /(^|\n).*$/.exec(before);
-  const beforeLine = (beforeExec && beforeExec[0]) || '';
+  const lastNl = before.lastIndexOf('\n');
+  const beforeLine = lastNl === -1 ? before : before.slice(lastNl + 1);
   const after = source.slice(i);
-  const afterExec = /.*(\n|$)/.exec(after);
-  const afterLine = afterExec && afterExec[0];
+  const firstNl = after.indexOf('\n');
+  const afterLine = firstNl === -1 ? after : after.slice(0, firstNl);
   const pad = repeat(' ', beforeLine.length);
   const snippet = `${beforeLine}${afterLine}\n${pad}^`;
   return { line, column, snippet };
