@@ -41,7 +41,7 @@ function universal2axis(
   if (typeof universal === 'number') {
     x = y = universal;
   } else if (typeof universal === 'string') {
-    const coords = universal.split(/\s*,\s*/);
+    const coords = universal.split(',').map((s) => s.trim());
     if (coords.length === 2) {
       x = +coords[0];
       y = +coords[1];
