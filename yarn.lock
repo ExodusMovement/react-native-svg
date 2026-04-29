@@ -90,10 +90,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@exodus/svg-safe@^1.0.0-rc.2":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@exodus/svg-safe/-/svg-safe-1.0.0-rc.2.tgz#6cdc8f49ff375e14b9abc354936b05ab62cd1f8e"
-  integrity sha512-fSqK61HZmB6+CfKtXABC0D6re1j5eY+D3QrAoJpyKjTZ3cs9DvUYJg+Q4Gk2VSd+HLS6k1q6OYhXnaxKLzRB0g==
+"@exodus/svg-safe@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@exodus/svg-safe/-/svg-safe-2.0.0.tgz#8ad7d4cbef79514c06f8c90f2af420a60ac746e7"
+  integrity sha512-SDt4Z9opQUKVYU0+UeWTz5naEkjkUGv/xsOqcaSvvN4xEe9KcZ2p8msKNge6/IQy6RdJVW/C95RqIj34CfgFrg==
 
 "@react-native-community/eslint-config@^0.0.5":
   version "0.0.5"

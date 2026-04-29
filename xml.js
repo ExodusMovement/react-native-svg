@@ -21,7 +21,7 @@ import Stop from './elements/Stop';
 import ClipPath from './elements/ClipPath';
 import Pattern from './elements/Pattern';
 import Mask from './elements/Mask';
-import { validate as validateSVG } from '@exodus/svg-safe';
+import { validate as validateSVG, validateTrusted as validateSVGTrusted } from '@exodus/svg-safe';
 export const tags = {
   svg: Svg,
   circle: Circle,
@@ -180,8 +180,8 @@ export function SvgAst({ ast, override }) {
 }
 
 export function SvgXml(props) {
-  const { xml, override } = props;
-  const ast = useMemo(() => xml && parse(xml), [xml]);
+  const { xml, override, trusted } = props;
+  const ast = useMemo(() => xml && parse(xml, { trusted }), [xml, trusted]);
   return (ast && <SvgAst ast={ast} override={override || props} />) || null;
 }
 
@@ -193,14 +193,14 @@ async function fetchText(uri) {
 const err = console.error.bind(console);
 
 export function SvgUri(props) {
-  const { uri } = props;
+  const { uri, trusted } = props;
   const [xml, setXml] = useState();
   useEffect(() => {
     fetchText(uri)
       .then(setXml)
       .catch(err);
   }, [uri]);
-  return (xml && <SvgXml xml={xml} override={sanitizeProps(props)} />) || null;
+  return (xml && <SvgXml xml={xml} override={sanitizeProps(props)} trusted={trusted} />) || null;
 }
 
 // Extending Component is required for Animated support.
@@ -211,14 +211,15 @@ export class SvgFromXml extends Component {
     this.parse(this.props.xml);
   }
   componentDidUpdate(prevProps) {
-    const { xml } = this.props;
-    if (xml !== prevProps.xml) {
+    const { xml, trusted } = this.props;
+    if (xml !== prevProps.xml || trusted !== prevProps.trusted) {
       this.parse(xml);
     }
   }
   parse(xml) {
     try {
-      this.setState({ ast: parse(xml) });
+      const { trusted } = this.props;
+      this.setState({ ast: parse(xml, { trusted }) });
     } catch (e) {
       console.error(e);
     }
@@ -255,7 +256,7 @@ export class SvgFromUri extends Component {
       props,
       state: { xml },
     } = this;
-    return xml ? <SvgFromXml xml={xml} override={props} /> : null;
+    return xml ? <SvgFromXml xml={xml} override={props} trusted={props.trusted} /> : null;
   }
 }
 
@@ -329,7 +330,7 @@ const validNameCharacters = /[a-zA-Z0-9:_-]/;
 const whitespace = /[\s\t\r\n]/;
 const quotemarks = /['"]/;
 
-export function parse(source) {
+export function parse(source, { trusted = false } = {}) {
   const length = source.length;
   let currentElement = null;
   let state = metadata;
@@ -337,7 +338,8 @@ export function parse(source) {
   let root = null;
   let stack = [];
   try {
-    validateSVG(source);
+    const validator = trusted ? validateSVGTrusted : validateSVG;
+    validator(source);
   } catch (e) {
     console.error(`SVG XML is not svg-safe!!!. Error: ${e.message}`, e);
     return undefined;
